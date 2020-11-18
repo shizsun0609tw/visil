@@ -1,0 +1,14 @@
+*.json
+
+database/
+queries/
+
+database.txt
+queries.txt
+
+model/
+datasets/
+
+ckpt/
+
+errfile.txt

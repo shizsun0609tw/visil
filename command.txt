@@ -1,0 +1,1 @@
+python3 calculate_similarity.py --query_file queries.txt --database_file database.txt --model_dir ckpt/resnet/ --load_queries
