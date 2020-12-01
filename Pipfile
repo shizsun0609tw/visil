@@ -10,6 +10,7 @@ numpy = "==1.15.4"
 tqdm = "==4.19.9"
 opencv-python = ">=3.1"
 tensorflow = "==1.14.0"
+flask = "*"
 
 [requires]
 python_version = "3.5"
