@@ -1,7 +1,7 @@
 import json
 import numpy as np
 
-in_path = "results.json"
+in_path = "../results.json"
 out_path = "processing_results.json"
 
 in_file = open(in_path, 'r')

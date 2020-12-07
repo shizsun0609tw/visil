@@ -6,16 +6,16 @@ err_file_name = "errfile.txt"
 queries_path = "queries/"
 database_path = "database/"
 
-queries_name = "queries.txt"
-database_name = "database.txt"
+queries_name = "../queries.txt"
+database_name = "../database.txt"
 
 def write_path(path, filename):
-    files = listdir(path)
+    files = listdir("../" + path)
     err_files = []
 
     with open(filename, 'w') as f:
         for file in files:
-            video = cv2.VideoCapture(path + file)
+            video = cv2.VideoCapture("../" + path + file)
 
             if video.isOpened() == False:
                 err_files.append(path + file)
