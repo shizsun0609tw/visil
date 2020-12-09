@@ -2,7 +2,9 @@ function visualize(data)
 {
     var url = location.href;
     var address = url.split("?");
-    var page = address[1].split("=")[1];
+    var page = 1;
+    
+    if (address.length > 1) page = address[1].split("=")[1];
 
     for (i = (page - 1) * 10; i < (page - 1) * 10 + 10; ++i)
     {
@@ -32,8 +34,10 @@ function write_foot(data)
 {
     var url = location.href;
     var address = url.split("?");
-    var current_page = address[1].split("=")[1];
+    var current_page = 1;
     
+    if (address.length > 1) current_page = address[1].split("=")[1];
+
     var label = true;
     for (i = 0; i < data.length / 10; ++i)
     {
