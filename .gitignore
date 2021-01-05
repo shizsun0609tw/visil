@@ -1,11 +1,11 @@
 *.json
+*.mp4
 
 database/
 queries/
 
 database.txt
 queries.txt
-
 
 upload/
 
