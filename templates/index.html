@@ -63,6 +63,17 @@
     <section class="u-align-center u-clearfix u-palette-5-base u-section-1" id="carousel_02af">
       <h2 class="u-custom-font u-font-playfair-display u-text u-text-1">Visil Results</h2>
       <p class="u-text u-text-2">CGV Lab</p>
+      <p class="u-text u-text-2">
+        <form action="" method=post enctype=multipart/form-data>
+        <p><input type=file name=file accept=".mp4">
+           <input type="submit" value=Upload></p>
+        </form>
+      </p>
+      <p class="u-text utext-2">
+          <script type="text/javascript">
+            select_json({{ data.jsonfile | tojson }})
+          </script>
+      </p>
       <div class="u-expanded-width u-table u-table-responsive u-table-1">
         <table class="u-table-entity u-table-entity-1">
           <colgroup>
@@ -81,14 +92,14 @@
           </thead>
           <tbody class="u-palette-5-dark-3 u-table-body u-table-body-1">
             <script type="text/javascript">
-                visualize({{ data | tojson }}); 
+                visualize({{ data.results | tojson }}); 
             </script>
           </tbody>
           <tfoot class="u-black u-table-footer u-table-footer-1">
             <tr style="height: 104px;">
               <td class="u-table-cell u-table-cell-1" colspan="4" align="center">
                   <script type="text/javascript">
-                    write_foot({{ data | tojson }});
+                    write_foot({{ data.results | tojson }});
                   </script>
               </td>
             </tr>

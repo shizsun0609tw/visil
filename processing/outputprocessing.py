@@ -1,11 +1,20 @@
 import json
 import numpy as np
+import sys
 
-in_path = "../results.json"
-out_path = "processing_results.json"
+# command example: python processing/outputprocessing.py processing_results=123123
+
+in_path = "results.json"
+out_path_folder = "processing/"
+out_path_prefix = "processing_results_"
+out_path_suffix = ".json"
+
+for arg in sys.argv:
+    if "processing_results=" in arg:
+        out_path_suffix = arg.split("processing_results=")[1] + out_path_suffix
 
 in_file = open(in_path, 'r')
-out_file = open(out_path, 'w')
+out_file = open(out_path_folder + out_path_prefix + out_path_suffix, 'w')
 
 data = json.load(in_file)
 out_data = []

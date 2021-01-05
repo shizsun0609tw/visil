@@ -9,8 +9,10 @@ verify_ssl = true
 numpy = "==1.15.4"
 tqdm = "==4.19.9"
 opencv-python = ">=3.1"
-tensorflow = "==1.14.0"
 flask = "*"
+werkzeug = "*"
+tensorflow-gpu = "==1.14"
+tensorflow = "==1.14"
 
 [requires]
 python_version = "3.5"

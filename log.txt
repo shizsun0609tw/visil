@@ -1,0 +1,2 @@
+[INFO] Queries will be loaded to the gpu
+[INFO] 274 layers loaded

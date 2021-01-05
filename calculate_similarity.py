@@ -6,6 +6,8 @@ from tqdm import tqdm
 from model.visil import ViSiL
 from datasets import VideoGenerator
 
+# python3 calculate_similarity.py --query_file queries.txt --database_file database.txt --model_dir ckpt/resnet/ --load_queries
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-q', '--query_file', type=str, required=True,
@@ -69,7 +71,9 @@ if __name__ == '__main__':
     for _ in pbar:
         frames, video_id = next(generator)
         if frames.shape[0] > 1:
-            features = model.extract_features(frames, args.batch_sz)
+            features = model.extract_features(frames, args.batch_sz) ##### slow ##### save np array(feature) to json and read
+            print(features.shape)
+            input()
             sims = model.calculate_similarities_to_queries(features)
             for i, s in enumerate(sims):
                 similarities[queries_ids[i]][video_id] = float(s)
