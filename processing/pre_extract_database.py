@@ -1,17 +1,18 @@
 import json
 import argparse
 import tensorflow as tf
-import numpy as np
+import sys
 import pickle
+
+sys.path.append('/home/zhenhua/Project/Fake_News/visil')
 
 from tqdm import tqdm
 from model.visil import ViSiL
-from datasets import VideoGenerator
-
-# python3 calculate_similarity.py --query_file queries.txt --database_file database.txt --model_dir ckpt/resnet/ --load_queries
+from datasets import VideoGenerator    
+    
+# python3 processing/pre_extract_database.py --query_file queries.txt --database_file database.txt --model_dir ckpt/resnet/
 
 if __name__ == '__main__':
-    
     parser = argparse.ArgumentParser()
     parser.add_argument('-q', '--query_file', type=str, required=True,
                         help='Path to file that contains the query videos')
@@ -38,51 +39,34 @@ if __name__ == '__main__':
                         help='Number of threads used for video loading. Default: 8')
     args = parser.parse_args()
 
-    # Create a video generator for the queries
-    enqueuer = tf.keras.utils.OrderedEnqueuer(VideoGenerator(args.query_file, all_frames='i3d' in args.network),
-                                              use_multiprocessing=True, shuffle=False)
-    enqueuer.start(workers=args.threads, max_queue_size=args.threads*2)
-    generator = enqueuer.get()
 
     # Initialize ViSiL model
     model = ViSiL(args.model_dir, net=args.network,
                   load_queries=args.load_queries, gpu_id=args.gpu_id,
                   similarity_function=args.similarity_function,
-                  queries_number=len(enqueuer.sequence) if args.load_queries else None)
+                  queries_number=None)
 
-    # Extract features of the queries
-    queries, queries_ids = [], []
+
+    # Create a video generator for the database video
+    enqueuer = tf.keras.utils.OrderedEnqueuer(VideoGenerator(args.database_file, all_frames='i3d' in args.network),
+                                              use_multiprocessing=True, shuffle=False)
+    enqueuer.start(workers=args.threads, max_queue_size=args.threads*2)
+    generator = enqueuer.get()
+
+    # Extract database features
+
+    features = dict()
     pbar = tqdm(range(len(enqueuer.sequence)))
     for _ in pbar:
         frames, video_id = next(generator)
-        features = model.extract_features(frames, args.batch_sz)
-        queries.append(features)
-        queries_ids.append(video_id)
-        pbar.set_postfix(query_id=video_id)
-    enqueuer.stop()
-    model.set_queries(queries)
+        if frames.shape[0] > 1:
+            features[video_id] = model.extract_features(frames, args.batch_sz).tolist()
 
-    database = dict()
-    with open('processing/database_features.pk', 'rb') as f:
-        database = pickle.load(f)
-
-    video_list = []
-    with open(args.database_file, 'r') as f:
-        for line in f.readlines():
-            video_list.append(line.split(' ')[0])
-
-    # Calculate similarities between the queries and the database videos
-    similarities = dict({query: dict() for query in queries_ids})
-    pbar = tqdm(range(len(video_list)))
-    
-    for i in pbar:
-        video_id = video_list[i]
-        sims = model.calculate_similarities_to_queries(database[video_id])
-        for i, s in enumerate(sims):
-            similarities[queries_ids[i]][video_id] = float(s)
         pbar.set_postfix(video_id=video_id)
     enqueuer.stop()
 
-    # Save similarities to a json file
-    with open(args.output_file, 'w') as f:
-        json.dump(similarities, f, indent=1)
+    with open('processing/database_features.pk', 'wb') as f:
+        pickle.dump(features, f, protocol=pickle.HIGHEST_PROTOCOL)
+
+    #with open('processing/database_features.json', 'w') as f:
+    #    json.dump(features, f, indent=1)

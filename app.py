@@ -5,6 +5,8 @@ import time
 from flask import Flask, render_template, send_from_directory, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
+# flask run --reload --host 140.113.210.7
+
 app = Flask(__name__)
 charset = 'utf-8'
 
@@ -42,7 +44,7 @@ def exe_visil(folder_name):
 
             print('Start command:')
             print('\t ' + command)
-            process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+            process = subprocess.Popen(command, shell=True)
             process.wait()
             print('End command')
 

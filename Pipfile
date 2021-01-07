@@ -13,6 +13,7 @@ flask = "*"
 werkzeug = "*"
 tensorflow-gpu = "==1.14"
 tensorflow = "==1.14"
+ipython = "*"
 
 [requires]
 python_version = "3.5"
