@@ -1,6 +1,7 @@
 import json
 import argparse
 import tensorflow as tf
+import numpy as np
 import sys
 import pickle
 
@@ -60,12 +61,18 @@ if __name__ == '__main__':
     for _ in pbar:
         frames, video_id = next(generator)
         if frames.shape[0] > 1:
-            features[video_id] = model.extract_features(frames, args.batch_sz).tolist()
+            feature = model.extract_features(frames, args.batch_sz)
+            filename = 'processing/database/' + video_id + '.npy'
+
+            with open(filename, 'wb') as f:
+                np.save(f, feature)
+
+            features[video_id] = filename
 
         pbar.set_postfix(video_id=video_id)
     enqueuer.stop()
 
-    with open('processing/database_features.pk', 'wb') as f:
+    with open('processing/database/database_features.pk', 'wb') as f:
         pickle.dump(features, f, protocol=pickle.HIGHEST_PROTOCOL)
 
     #with open('processing/database_features.json', 'w') as f:

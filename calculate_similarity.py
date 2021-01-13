@@ -63,8 +63,11 @@ if __name__ == '__main__':
     model.set_queries(queries)
 
     database = dict()
-    with open('processing/database_features.pk', 'rb') as f:
-        database = pickle.load(f)
+    with open('processing/database/database_features.pk', 'rb') as f:
+        filepath = pickle.load(f)
+        for key in filepath.keys():
+            with open(filepath[key], 'rb') as f1:
+                database[key] = np.load(f1)
 
     video_list = []
     with open(args.database_file, 'r') as f:
