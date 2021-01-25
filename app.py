@@ -5,7 +5,7 @@ import time
 from flask import Flask, render_template, send_from_directory, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
-# flask run --reload --host 140.113.210.7
+# flask run --reload --host 140.113.24.137
 
 app = Flask(__name__)
 charset = 'utf-8'
@@ -58,7 +58,7 @@ def upload_video():
         file.save(UPLOAD_PATH + current_time + '/' + filename)
         exe_visil(current_time)
 
-    return index()
+    return redirect(url_for('index') + '?jsonfile=' + current_time)
 
 @app.route('/upload/<string:folder>/<string:video>')
 def get_upload(folder, video):

@@ -9,7 +9,7 @@ class ViSiL(object):
 
     def __init__(self, model_dir, net='resnet', load_queries=False,
                  dims=None, whitening=True, attention=True, video_comparator=True,
-                 queries_number=None, gpu_id=0, similarity_function='chamfer'):
+                 queries_number=None, gpu_id=2, similarity_function='chamfer'):
 
         self.net = net
         if self.net not in ['resnet', 'i3d']:

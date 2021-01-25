@@ -10,6 +10,12 @@ from datasets import VideoGenerator
 
 # python3 calculate_similarity.py --query_file queries.txt --database_file database.txt --model_dir ckpt/resnet/ --load_queries
 
+def init():
+    pass
+
+def calculate():
+    pass
+
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()

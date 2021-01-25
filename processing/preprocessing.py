@@ -55,6 +55,6 @@ err_files = []
 queries_path, database_path = parse_arg(queries_path, database_path)
 
 err_files.extend(write_path(queries_path, queries_name))
-err_files.extend(write_path(database_path, database_name))
+# err_files.extend(write_path(database_path, database_name))
 
 write_err(err_files, err_file_name)
